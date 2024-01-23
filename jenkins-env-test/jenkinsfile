@@ -1,29 +1,29 @@
 
-// properties([
-//     parameters {
-//         choice(name: 'TARGET_ENV', choices: ['dev', 'qa', 'prod'], description: 'Select target environment')
-//         string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Enter branch name')
-//     }
-// ])
+properties([
+    parameters {
+        choice(name: 'TARGET_ENV', choices: ['dev', 'qa', 'prod'], description: 'Select target environment')
+        // string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Enter branch name')
+    }
+])
 
-// def envConfigFile = ''
+def envConfigFile = ''
 
-// switch (TARGET_ENV) {
-//     case 'dev':
-//         envConfigFile = './INT.groovy'
-//         break
-//     case 'qa':
-//         envConfigFile = 'qa-config.groovy'
-//         break
-//     default:
-//         error("Invalid environment: ${environment}")
-// }
+switch (TARGET_ENV) {
+    case 'dev':
+        envConfigFile = 'jenkins-env-test/INT.groovy'
+        break
+    case 'qa':
+        envConfigFile = 'qa-config.groovy'
+        break
+    default:
+        error("Invalid environment: ${TARGET_ENV}")
+}
 
-// def envConfig = load envConfigFile
+def envConfig = load envConfigFile
 // def envConfig = load "/var/lib/jenkins/workspace/jenkins-test@script/8a44ff292cc8809df50a4a85c0248f01587cff646bf614f32107577e7f5e6b7d/jenkins-env-test/INT.groovy"
 
-// pipeline {
-//     agent any
+pipeline {
+    agent any
 
 //     parameters {
 //         choice(name: 'TARGET_ENV', choices: ['dev', 'qa', 'prod'], description: 'Select target environment')
@@ -58,87 +58,83 @@
 //                 }
 //             }
 //         }
-//         stage('echo value') {
-//             steps {
-//                 script {
-//                     sh "ls -l"
-//                     // echo ${envConfig.DATABASE_URL}
-//                     // echo ${envConfig.API_URL}
-//                     // Checkout the specified branch
-//                     // checkout([$class: 'GitSCM', branches: [[name: "origin/${params.BRANCH_NAME}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/your/repo.git']]])
-
-//                 }
-//             }
-//         }
-//     }
-// }
-
-
-pipeline {
-    agent any
-    
-    parameters {
-        choice(name: 'ENVIRONMENT', choices: ['dev', 'test', 'prod'], description: 'Select the environment')
-    }
-
-    stages {
-        // stage('Checkout') {
-        //     steps {
-        //         // Add your SCM checkout step here
-        //         // For example, git checkout
-        //         checkout([$class: 'GitSCM', branches: [[name: "origin/${params.BRANCH_NAME}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/your/repo.git']]])
-        //     }
-        // }
-
-        stage('Load Environment-specific Config') {
+        stage('echo value') {
             steps {
                 script {
-                    def envConfigFile = ''
-                    
-                    // Determine the environment based on the parameter
-                    def environment = params.ENVIRONMENT ?: 'dev'
-                    
-                    // Define the path to the environment-specific configuration file
-                    switch (environment) {
-                        case 'dev':
-                            envConfigFile = 'jenkins-env-test/INT.groovy'
-                            break
-                        case 'test':
-                            envConfigFile = 'test-config.groovy'
-                            break
-                        case 'prod':
-                            envConfigFile = 'prod-config.groovy'
-                            break
-                        default:
-                            error("Invalid environment: ${environment}")
-                    }
-                    
-                    // Load the environment-specific configuration
-                    def envConfig = load envConfigFile
-                    
-                    // Set environment variables based on the loaded configuration
-                    env.DATABASE_URL = envConfig.DATABASE_URL
-                    env.API_URL = envConfig.API_URL
+                    sh "ls -l"
+                    echo "Building with Database URL: ${envConfig.DATABASE_URL}"
+                    echo "Building with API URL: ${envConfig.API_URL}"
                 }
             }
         }
-
-        stage('Build') {
-            steps {
-                echo "Building with Database URL: ${env.DATABASE_URL}"
-                echo "Building with API URL: ${env.API_URL}"
-                
-                // Add your build steps here
-                // For example, running tests or building the application
-            }
-        }
-
-        // Add more stages as needed
-    }
-
-    // post {
-    //     always {
-    //         // Clean up or perform any post-build actions
-    //     }
-    // }
 }
+
+
+// pipeline {
+//     agent any
+    
+//     parameters {
+//         choice(name: 'ENVIRONMENT', choices: ['dev', 'test', 'prod'], description: 'Select the environment')
+//     }
+
+//     stages {
+//         // stage('Checkout') {
+//         //     steps {
+//         //         // Add your SCM checkout step here
+//         //         // For example, git checkout
+//         //         checkout([$class: 'GitSCM', branches: [[name: "origin/${params.BRANCH_NAME}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/your/repo.git']]])
+//         //     }
+//         // }
+
+//         stage('Load Environment-specific Config') {
+//             steps {
+//                 script {
+//                     def envConfigFile = ''
+                    
+//                     // Determine the environment based on the parameter
+//                     def environment = params.ENVIRONMENT ?: 'dev'
+                    
+//                     // Define the path to the environment-specific configuration file
+//                     switch (environment) {
+//                         case 'dev':
+//                             envConfigFile = 'jenkins-env-test/INT.groovy'
+//                             break
+//                         case 'test':
+//                             envConfigFile = 'test-config.groovy'
+//                             break
+//                         case 'prod':
+//                             envConfigFile = 'prod-config.groovy'
+//                             break
+//                         default:
+//                             error("Invalid environment: ${environment}")
+//                     }
+                    
+//                     // Load the environment-specific configuration
+//                     def envConfig = load envConfigFile
+                    
+//                     // Set environment variables based on the loaded configuration
+//                     env.DATABASE_URL = envConfig.DATABASE_URL
+//                     env.API_URL = envConfig.API_URL
+//                 }
+//             }
+//         }
+
+//         stage('Build') {
+//             steps {
+//                 echo "Building with Database URL: ${env.DATABASE_URL}"
+//                 echo "Building with API URL: ${env.API_URL}"
+                
+//                 // Add your build steps here
+//                 // For example, running tests or building the application
+//             }
+//         }
+
+//         // Add more stages as needed
+//     }
+
+//     // post {
+//     //     always {
+//     //         // Clean up or perform any post-build actions
+//     //     }
+//     // }
+// }
