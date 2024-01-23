@@ -20,6 +20,7 @@
 // }
 
 // def envConfig = load envConfigFile
+def envConfig = load "./INT.groovy"
 
 pipeline {
     agent any
@@ -43,7 +44,7 @@ pipeline {
     // }
     
     // def envConfig = load envConfigFile
-    def envConfig = load "./INT.groovy"
+    // def envConfig = load "./INT.groovy"
 
     stages {
         stage('Checkout') {
