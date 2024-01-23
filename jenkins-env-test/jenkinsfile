@@ -46,7 +46,7 @@ pipeline {
     // def envConfig = load envConfigFile
     // def envConfig = load "./INT.groovy"
 
-//     stages {
+    stages {
 //         stage('Checkout') {
 //             steps {
 //                 script {
@@ -67,6 +67,7 @@ pipeline {
                 }
             }
         }
+    }
 }
 
 
