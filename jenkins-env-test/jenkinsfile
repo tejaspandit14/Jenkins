@@ -20,7 +20,7 @@
 // }
 
 // def envConfig = load envConfigFile
-def envConfig = load "$JENKINS_HOME/jenkins-env-test/INT.groovy"
+def envConfig = load "/var/lib/jenkins/workspace/jenkins-test@script/8a44ff292cc8809df50a4a85c0248f01587cff646bf614f32107577e7f5e6b7d/jenkins-env-test/INT.groovy"
 
 pipeline {
     agent any
