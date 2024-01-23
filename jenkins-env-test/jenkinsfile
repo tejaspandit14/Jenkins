@@ -20,7 +20,7 @@
 // }
 
 // def envConfig = load envConfigFile
-def envConfig = load "./INT.groovy"
+def envConfig = load "$JENKINS_HOME/INT.groovy"
 
 pipeline {
     agent any
