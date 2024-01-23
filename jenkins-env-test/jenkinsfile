@@ -1,9 +1,7 @@
-
+#!/usr/bin/env groovy
 properties([
-    parameters {
-        choice(name: 'TARGET_ENV', choices: ['dev', 'qa', 'prod'], description: 'Select target environment')
+    parameters([choice(name: 'TARGET_ENV', choices: ['dev', 'qa', 'prod'], description: 'Select target environment')])
         // string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Enter branch name')
-    }
 ])
 
 def envConfigFile = ''
