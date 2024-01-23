@@ -82,13 +82,13 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Add your SCM checkout step here
-                // For example, git checkout
-                checkout([$class: 'GitSCM', branches: [[name: "origin/${params.BRANCH_NAME}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/your/repo.git']]])
-            }
-        }
+        // stage('Checkout') {
+        //     steps {
+        //         // Add your SCM checkout step here
+        //         // For example, git checkout
+        //         checkout([$class: 'GitSCM', branches: [[name: "origin/${params.BRANCH_NAME}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/your/repo.git']]])
+        //     }
+        // }
 
         stage('Load Environment-specific Config') {
             steps {
