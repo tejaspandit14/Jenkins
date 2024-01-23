@@ -1,28 +1,50 @@
 
-properties([
+// properties([
+//     parameters {
+//         choice(name: 'TARGET_ENV', choices: ['dev', 'qa', 'prod'], description: 'Select target environment')
+//         string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Enter branch name')
+//     }
+// ])
+
+// def envConfigFile = ''
+
+// switch (TARGET_ENV) {
+//     case 'dev':
+//         envConfigFile = './INT.groovy'
+//         break
+//     case 'qa':
+//         envConfigFile = 'qa-config.groovy'
+//         break
+//     default:
+//         error("Invalid environment: ${environment}")
+// }
+
+// def envConfig = load envConfigFile
+
+pipeline {
+    agent any
+
     parameters {
         choice(name: 'TARGET_ENV', choices: ['dev', 'qa', 'prod'], description: 'Select target environment')
         string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Enter branch name')
     }
-])
+    
+    // def envConfigFile = ''
 
-def envConfigFile = ''
+    // switch (TARGET_ENV) {
+    //     case 'dev':
+    //         envConfigFile = './INT.groovy'
+    //         break
+    //     case 'qa':
+    //         envConfigFile = 'qa-config.groovy'
+    //         break
+    //     default:
+    //         error("Invalid environment: ${environment}")
+    // }
+    
+    // def envConfig = load envConfigFile
+    def envConfig = load "./INT.groovy"
 
-switch (TARGET_ENV) {
-    case 'dev':
-        envConfigFile = './INT.groovy'
-        break
-    case 'qa':
-        envConfigFile = 'qa-config.groovy'
-        break
-    default:
-        error("Invalid environment: ${environment}")
-}
-
-def envConfig = load envConfigFile
-
-pipeline {
-    agent any
     stages {
         stage('Checkout') {
             steps {
