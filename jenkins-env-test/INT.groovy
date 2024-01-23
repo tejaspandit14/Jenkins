@@ -7,5 +7,5 @@ return [
     //     imagename = "nginx"
     // }
     // APP_IMAGE_NAME = "${imagename}"
-    APP_IMAGE_NAME = "nginx"
+    APP_IMAGE_NAME: "nginx"
 ]
