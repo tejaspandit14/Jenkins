@@ -27,6 +27,17 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
+                    // echo ${envConfig.DATABASE_URL}
+                    // echo ${envConfig.API_URL}
+                    // Checkout the specified branch
+                    checkout([$class: 'GitSCM', branches: [[name: "origin/${params.BRANCH_NAME}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/your/repo.git']]])
+
+                }
+            }
+        }
+        stage('echo value') {
+            steps {
+                script {
                     echo ${envConfig.DATABASE_URL}
                     echo ${envConfig.API_URL}
                     // Checkout the specified branch
