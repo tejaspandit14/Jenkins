@@ -101,7 +101,7 @@ pipeline {
                     // Define the path to the environment-specific configuration file
                     switch (environment) {
                         case 'dev':
-                            envConfigFile = 'dev-config.groovy'
+                            envConfigFile = 'INT.groovy'
                             break
                         case 'test':
                             envConfigFile = 'test-config.groovy'
