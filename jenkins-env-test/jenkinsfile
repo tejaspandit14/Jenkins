@@ -10,7 +10,7 @@ def envConfigFile = ''
 
 switch (TARGET_ENV) {
     case 'dev':
-        envConfigFile = 'dev-config.groovy'
+        envConfigFile = './INT.groovy'
         break
     case 'qa':
         envConfigFile = 'qa-config.groovy'
