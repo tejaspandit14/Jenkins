@@ -1,0 +1,39 @@
+
+properties([
+    parameters {
+        choice(name: 'TARGET_ENV', choices: ['dev', 'qa', 'prod'], description: 'Select target environment')
+        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Enter branch name')
+    }
+])
+
+def envConfigFile = ''
+
+switch (TARGET_ENV) {
+    case 'dev':
+        envConfigFile = 'dev-config.groovy'
+        break
+    case 'qa':
+        envConfigFile = 'qa-config.groovy'
+        break
+    default:
+        error("Invalid environment: ${environment}")
+}
+
+def envConfig = load envConfigFile
+
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    echo ${envConfig.DATABASE_URL}
+                    echo ${envConfig.API_URL}
+                    // Checkout the specified branch
+                    // checkout([$class: 'GitSCM', branches: [[name: "origin/${params.BRANCH_NAME}"]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/your/repo.git']]])
+
+                }
+            }
+        }
+    }
+}
